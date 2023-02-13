@@ -4,7 +4,7 @@ pragma solidity >=0.8.7;
 
 contract Orange {
 
-    //FIND THE INDEX NUMBER OF ANY ELEMENT INSIDE THIS ARRAY
+    //FIND SUM OF THE ARRAY
 
     uint[] internal myArray = [10, 11, 100, 200];
 
