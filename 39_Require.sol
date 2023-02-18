@@ -8,7 +8,7 @@ contract Orange {
     /* CONDITION CHECKING
     1. REQUIRE
     - Most used function to check conditions before execution
-    - If false, all remaining gas returned
+    - If false, all remaining gas returned,
     - If false, changes made to the contract reverts back.
     */
 
