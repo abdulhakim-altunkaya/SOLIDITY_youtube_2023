@@ -4,8 +4,14 @@ pragma solidity >=0.8.10;
 
 contract Apple {
     
+    uint public immutable MY_NUM = 25652;
+    uint public immutable MY_NUM_2;
+    
+    string public constant MY_CITY  = "Brazzaville";
 
-
+    constructor() {
+        MY_NUM_2 = 1;
+    }
 
 /*
 
