@@ -4,7 +4,7 @@ pragma solidity >=0.8.7;
 
 import "./IApple.sol";
 
-contract A {
+contract A is IApple {
     
     string public myCity = "Cizre";
 
