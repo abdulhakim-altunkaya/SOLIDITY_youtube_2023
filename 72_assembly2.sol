@@ -22,8 +22,34 @@ contract Apple {
         }
     }
 
-
-    
+    function foo2() public pure returns (string memory) {
+        assembly {
+            let c := "hello world" 
+            mstore(0x0, c)
+            return(0x0, 0x20)
+        }
+    }
+    function foo3() public pure returns (string memory) {
+        string memory c = "hello world";
+        bytes memory b = bytes(c);
+        uint256 len = b.length;
+        uint256 ptr;
+        assembly {
+            ptr := mload(0x40)
+            mstore(ptr, len)
+            mstore(add(ptr, 0x20), len)
+            mstore(add(ptr, 0x40), add(b, 0x20))
+        }
+        bytes memory outputBytes = new bytes(len);
+        for (uint256 i = 0; i < len; i++) {
+            outputBytes[i] = b[i];
+        }
+        return string(outputBytes);
+    }
+    function foo4() public pure returns (string memory) {
+        string memory d = "hello world";
+        return d;
+    }
 
     /*
     sload() : loads a value from storage to EVM register. 
