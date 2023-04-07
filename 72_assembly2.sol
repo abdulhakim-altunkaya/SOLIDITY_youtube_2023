@@ -4,53 +4,34 @@ pragma solidity >=0.8.18;
 
 contract Apple {
 
-    
-
-    function foo() public view returns (uint) {
-        assembly {
-            let value := sload(num.slot)
-            mstore(0x0, value)
-            return(0x0, 0x20)
-        }
-    }
     uint internal num = 6;
+
     function foo1() public view returns (uint) {
-        uint value = num;
         assembly {
-            mstore(0x0, value)
+            let x := sload(num.slot)
+            mstore(0x0, x)
             return(0x0, 0x20)
         }
     }
 
-    function foo2() public pure returns (string memory) {
+    function foo2() public view returns (uint) {
+        uint x = num; //value of x is in memory but not at 0x0 location
         assembly {
-            let c := "hello world" 
-            mstore(0x0, c)
+            mstore(0x0, x) //value of x is in memory and at 0x0 location now.
             return(0x0, 0x20)
         }
     }
-    function foo3() public pure returns (string memory) {
-        string memory c = "hello world";
-        bytes memory b = bytes(c);
-        uint256 len = b.length;
-        uint256 ptr;
-        assembly {
-            ptr := mload(0x40)
-            mstore(ptr, len)
-            mstore(add(ptr, 0x20), len)
-            mstore(add(ptr, 0x40), add(b, 0x20))
-        }
-        bytes memory outputBytes = new bytes(len);
-        for (uint256 i = 0; i < len; i++) {
-            outputBytes[i] = b[i];
-        }
-        return string(outputBytes);
-    }
-    function foo4() public pure returns (string memory) {
-        string memory d = "hello world";
-        return d;
-    }
 
+    /* foo2(): Although x value is in the memory, we dont know its memory location.
+    So, we need save it in a specific memory location and later can return.
+
+    foo1() : Why we say "sload(num.slot)" but not just "sload(num)"
+    Contract storage is arranged as key-value pairs. So, "slot" is the key here.
+    "slot" is a notation that is pointing us to the value of the storage variable.
+    There is also "offset" notation which is used for complex data types.
+    So, "slot" is acting like an object property which is taking us to the value.
+
+    */
     /*
     sload() : loads a value from storage to EVM register. 
         (EVM Register: an exlusive data location used by EVM for contract execution. 
